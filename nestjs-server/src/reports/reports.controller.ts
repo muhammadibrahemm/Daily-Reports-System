@@ -30,13 +30,13 @@ export class ReportsController {
 
   @UseGuards(AuthGuard)
   @Get('all')
-  findAll(@Request() req) {
+  async findAll(@Request() req) {
 
     const userId = req.user.sub;
     console.log("user Id in get req:", userId);
     
     // Pass userId to service
-    return this.reportsService.findAll(userId);
+    return await this.reportsService.findAll(userId);
   }
 
   @UseGuards(AuthGuard)
