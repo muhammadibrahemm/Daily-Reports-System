@@ -1,11 +1,3 @@
-function Footer(){
-    return(
-        <Footer>
-            
-        </Footer>
-    )
-}import React from "react";
-
 function Footer() {
   return (
     <footer className="px-8 py-8 bg-gray-100 text-center">
