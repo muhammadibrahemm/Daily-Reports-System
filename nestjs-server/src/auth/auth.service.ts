@@ -38,7 +38,7 @@ export class AuthService {
         try {
           const res = await this.userService.loginUser(loginDto);
 
-          const { message, statusCode, id } = res;
+          const { message, statusCode, id, role } = res;
 
           if (statusCode === 200) {
             const payload = { sub: id };
@@ -47,6 +47,9 @@ export class AuthService {
               message,
               token,
               statusCode,
+              id,
+              role
+
             };
             return res;
           }

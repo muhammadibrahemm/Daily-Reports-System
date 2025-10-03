@@ -44,6 +44,8 @@ export class UserService {
             console.log("email",email)
             const user = await this.userModel.findOne({email});
             
+            console.log("user:",user?.role);
+
             if(!user) {
                 console.log("user ddd:",user)
                 throw new NotFoundException(`User with email ${email} not found`);
@@ -51,12 +53,14 @@ export class UserService {
 
             
             const isPasswordValid = await bcrypt.compare(password, user.password);
+            console.log("is Password valid:",isPasswordValid);
 
             if(!isPasswordValid){
                 throw new UnauthorizedException("Invalid credentials");
             }
 
-            return { message: "Login Successfull", statusCode: 200, id: user._id}
+            return { message: "Login Successfull", statusCode: 200, id: user._id, role: user?.role}
+            
 
         } catch (error) {
             throw error;

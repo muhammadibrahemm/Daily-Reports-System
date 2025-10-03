@@ -28,5 +28,30 @@ export const registerUserApi = async (data) => {
 
       throw { message: error.message };
     }
-  };
+};
+
+// 2. logging the user
+export const loginUserApi = async (data) => {
+  try {
+    const res = await api.post("/login", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Inside login api success:", res.data);
+    return res.data;
+
+  } catch (error) {
+    console.log("error in loginUser Api:", error);
+
+    // ✅ Return structured error response
+    if (error.response && error.response.data) {
+      return error.response.data; 
+    }
+
+    // Fallback for network/unknown errors
+    return { message: "Something went wrong", statusCode: 500 };
+  }
+}
   

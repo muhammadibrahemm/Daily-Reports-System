@@ -3,12 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import { registerUserThroughRedux } from "../../features/auth/auth.feature";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
+
 
 
 function Register() {
-
   const isLoading = useSelector((state) => state.authSlice.isLoading)
   console.log("is Loading:",isLoading)
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -44,7 +46,16 @@ function Register() {
 
     if(statusCode === 201){
       toast.success(message)
+      navigate("/login")
     }
+
+    if (statusCode === 400) {
+      if (Array.isArray(message)) {
+          message.forEach((msg) => toast.error(msg));
+      } else {
+          toast.error(message || "Invalid request");
+      }
+  }
     
   }
 
@@ -55,7 +66,6 @@ function Register() {
           Register
         </h2>
         <form className="space-y-4" onSubmit={submitFormDataBtn}>
-          {/* Name */}
           <div>
             <label
               htmlFor="name"
@@ -75,7 +85,6 @@ function Register() {
             />
           </div>
 
-          {/* Email */}
           <div>
             <label
               htmlFor="email"
@@ -84,7 +93,7 @@ function Register() {
               Email
             </label>
             <input
-              type="email"
+              type="text"
               id="email"
               placeholder="Enter your email"
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -95,7 +104,6 @@ function Register() {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label
               htmlFor="password"
@@ -115,18 +123,20 @@ function Register() {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-blue-800 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+          
+          disabled={isLoading}
           >
-            Register
+            {isLoading ? "Registering..." : "Register"}
           </button>
         </form>
 
-        {/* Login Redirect Button */}
         <div className="mt-4 text-center">
-          <button className="text-blue-600 hover:underline">
+          <button 
+            className="text-blue-600 hover:underline" 
+            onClick={() => navigate("/login")}>
             Already have an account? Login
           </button>
         </div>
