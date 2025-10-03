@@ -1,24 +1,8 @@
 import React from "react";
 
-function App() {
+function Home() {
   return (
-    <>
-      {/* HEADER */}
-      <header className="flex justify-between items-center px-8 py-4 bg-white shadow-md sticky top-0 z-50">
-        <div className="logo text-2xl font-bold text-blue-600">
-          Daily Reports
-        </div>
-        <nav className="space-x-4">
-          {/* Non-logged-in buttons */}
-          <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-            Register
-          </button>
-          <button className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">
-            Login
-          </button>
-        </nav>
-      </header>
-
+    <main>
       {/* HERO SECTION */}
       <section className="flex flex-col md:flex-row items-center justify-between px-8 py-16 bg-blue-50">
         <div className="hero-text md:w-1/2">
@@ -37,6 +21,7 @@ function App() {
             </button>
           </div>
         </div>
+
         <div className="hero-image md:w-1/2 mt-8 md:mt-0">
           {/* SVG Hero Illustration */}
           <svg
@@ -66,8 +51,8 @@ function App() {
           Key Features
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Feature 1: Create Reports */}
-          <div className="card text-center p-6 rounded-lg shadow hover:shadow-lg transition">
+          {/* Feature 1 */}
+          <article className="text-center p-6 rounded-lg shadow hover:shadow-lg transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="mx-auto mb-4 w-16 h-16 text-blue-600"
@@ -84,10 +69,10 @@ function App() {
             </svg>
             <h4 className="text-xl font-semibold mb-2">Create Reports</h4>
             <p className="text-gray-600">Easily create new reports in minutes.</p>
-          </div>
+          </article>
 
-          {/* Feature 2: Edit Reports */}
-          <div className="card text-center p-6 rounded-lg shadow hover:shadow-lg transition">
+          {/* Feature 2 */}
+          <article className="text-center p-6 rounded-lg shadow hover:shadow-lg transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="mx-auto mb-4 w-16 h-16 text-blue-600"
@@ -109,10 +94,10 @@ function App() {
             </svg>
             <h4 className="text-xl font-semibold mb-2">Edit Reports</h4>
             <p className="text-gray-600">Edit and manage your reports seamlessly.</p>
-          </div>
+          </article>
 
-          {/* Feature 3: Dashboard */}
-          <div className="card text-center p-6 rounded-lg shadow hover:shadow-lg transition">
+          {/* Feature 3 */}
+          <article className="text-center p-6 rounded-lg shadow hover:shadow-lg transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="mx-auto mb-4 w-16 h-16 text-blue-600"
@@ -129,7 +114,7 @@ function App() {
             </svg>
             <h4 className="text-xl font-semibold mb-2">Dashboard</h4>
             <p className="text-gray-600">Get an overview of your reports in real time.</p>
-          </div>
+          </article>
         </div>
       </section>
 
@@ -139,39 +124,31 @@ function App() {
           How It Works
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="step p-6">
+          <article className="step p-6">
             <div className="text-blue-600 text-2xl font-bold mb-2">1</div>
             <h4 className="text-xl font-semibold mb-2">Register / Login</h4>
             <p className="text-gray-600">
               Access your account to start managing reports.
             </p>
-          </div>
-          <div className="step p-6">
+          </article>
+          <article className="step p-6">
             <div className="text-blue-600 text-2xl font-bold mb-2">2</div>
             <h4 className="text-xl font-semibold mb-2">Create / Edit Reports</h4>
             <p className="text-gray-600">
               Easily create or modify your daily reports.
             </p>
-          </div>
-          <div className="step p-6">
+          </article>
+          <article className="step p-6">
             <div className="text-blue-600 text-2xl font-bold mb-2">3</div>
             <h4 className="text-xl font-semibold mb-2">Dashboard & Tracking</h4>
             <p className="text-gray-600">
               Monitor your progress and report history efficiently.
             </p>
-          </div>
+          </article>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="px-8 py-8 bg-gray-100 text-center">
-        <div className="mb-4 text-blue-600 font-bold text-xl">Daily Reports</div>
-        <p className="text-gray-500 text-sm">
-          © 2025 Daily Reports System. All rights reserved.
-        </p>
-      </footer>
-    </>
+    </main>
   );
 }
 
-export default App;
+export default Home;
