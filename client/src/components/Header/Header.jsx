@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../features/auth/auth.feature";
@@ -7,6 +7,7 @@ function Header() {
   const { role, token } = useSelector((state) => state.authSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   const handleLogout = () => {
     dispatch(logout());

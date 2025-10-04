@@ -32,9 +32,10 @@ function Login() {
     console.log("userData:",userData);
     const res = await dispatch(loginUserThroughRedux(userData));
     const { statusCode } = res.payload
-    console.log("payload:",res.payload)
+
     if(statusCode === 200){
       toast.success("Login Successfull")
+      console.log("res.payload.role",res.payload.role)
       if(res.payload.role === "admin"){
         navigate("/admin-dashboard")
       }else{

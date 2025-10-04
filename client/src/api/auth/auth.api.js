@@ -45,13 +45,28 @@ export const loginUserApi = async (data) => {
   } catch (error) {
     console.log("error in loginUser Api:", error);
 
-    // ✅ Return structured error response
     if (error.response && error.response.data) {
       return error.response.data; 
     }
-
-    // Fallback for network/unknown errors
     return { message: "Something went wrong", statusCode: 500 };
   }
 }
+
+// 3. verfying user when token is saved in local storage and take out the role
+export const verifyUserTokenApi = async (token) => {
+  try {
+    const res = await api.get("profile", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    console.log("res in verifyUserTokenApi:",res.data);
+    return res.data;
+    
+  } catch (error) {
+    console.log("error is in verify user token api:",error);
+  }
+} 
   
