@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllReportsThroughRedux } from "../../features/report/report.feature";
+import { canCreateReportThroughRedux, fetchAllReportsThroughRedux } from "../../features/report/report.feature";
 import { logout } from "../../features/auth/auth.feature";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,6 +22,25 @@ function UserDashboard() {
           toast.error(msg);
           navigate("/login")
         }
+    }
+
+    const handleCreateReports =  async () => {
+      const res = await dispatch(canCreateReportThroughRedux(token));
+      const { success, message, msg, statusCode} = res.payload;
+      console.log("res.payload",res.payload)
+      if(success){
+        toast.success(message);
+        navigate('create-report')
+      }
+      if(!success){
+        toast.error(message);
+      }
+
+      if(statusCode === 404){
+        dispatch(logout())
+        navigate("/login")
+        toast.error(msg);
+      }
     }
 
     return (
@@ -64,7 +83,9 @@ function UserDashboard() {
             </div>
   
             <div className="mt-6 text-center">
-              <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+              <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                onClick={handleCreateReports}
+              >
                 Create Report
               </button>
             </div>

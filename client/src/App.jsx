@@ -10,6 +10,7 @@ import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import { useSelector,useDispatch } from "react-redux";
 import { verifyUserTokenRedux } from "./features/auth/auth.feature";
 import ViewReport from "./pages/reports/ViewReports";
+import CreateReport from "./pages/reports/CreateReport";
 
 
 
@@ -44,6 +45,10 @@ function App() {
           {
             path: 'user-dashboard/view-report',
             element: <ViewReport />
+          },
+          {
+            path: 'user-dashboard/create-report',
+            element: <CreateReport />
           },
           {
             path: 'admin-dashboard',

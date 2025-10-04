@@ -27,3 +27,59 @@ export const fetchAllReportsApi = async(token) => {
         return Promise.reject(error.message || "Something went wrong");
       }
 }
+
+// 2. can create the report
+// which checks the logic one report per day and if it is okay then move the user to create form
+// if not then user will stay on his / her dashboard
+
+export const canCreateReportApi = async(token) => {
+    try {
+        const res = await api.get("/can-create", {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        console.log("res in api:",res);
+        console.log("res.api in api:",res.data);
+
+        return res.data;
+
+    } catch (error) {
+
+        console.log("error:",error)
+        console.log("error.response:",error.response)
+        
+        if (error.response && error.response.status === 401) {
+          return Promise.reject("TOKEN_EXPIRED");
+        }
+        return Promise.reject(error.message || "Something went wrong");
+    }
+}
+
+// 3 finally create the report 
+export const createReportApi = async(token, data) => {
+    try {
+        
+        const res = await api.post("/create", data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        console.log("res in api:",res);
+        console.log("res.data in api:",res.data);
+
+        return res.data;
+        
+    } catch (error) {
+        console.log("error:",error)
+        console.log("error.response:",error.response)
+        
+        if (error.response && error.response.status === 401) {
+          return Promise.reject("TOKEN_EXPIRED");
+        }
+        return Promise.reject(error.message || "Something went wrong");
+    }
+}

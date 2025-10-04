@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchAllReportsApi } from "../../api/report/report.api";
+import { canCreateReportApi, createReportApi, fetchAllReportsApi } from "../../api/report/report.api";
 
 
 
@@ -23,6 +23,52 @@ export const fetchAllReportsThroughRedux = createAsyncThunk(
         }
     }
 )
+
+// 2 can create the report
+export const canCreateReportThroughRedux = createAsyncThunk(
+    "reports/can-create",
+    async(token, {rejectWithValue}) => {
+        try {
+            const res = await canCreateReportApi(token);
+            console.log("res in redux:",res);
+            return res;
+        } catch (error) {
+            if (error === "TOKEN_EXPIRED") {
+                const errObj = {
+                    statusCode: 404,
+                    msg: "Token expired. Please login again."
+                }
+                return rejectWithValue(errObj);
+            }
+            return rejectWithValue(error);
+        }
+    }
+)
+
+// 3 create the report now
+export const createReportThroughRedux = createAsyncThunk(
+    "reports/create",
+    async ({ token, data }, { rejectWithValue }) => {
+      try {
+
+        const response = await createReportApi(token, data);
+        console.log("response is in report:",response);
+        return response; 
+
+      } catch (error) {
+
+        if (error === "TOKEN_EXPIRED") {
+            const errObj = {
+                statusCode: 404,
+                msg: "Token expired. Please login again."
+            }
+            return rejectWithValue(errObj);
+        }
+        return rejectWithValue(error);
+
+    }
+    }
+  );
 
 const initialState = {
     reports: [],
@@ -53,7 +99,41 @@ const reportSlice = createSlice(
                 state.isLoading = false;
                 state.isError = true;
             })
-            
+            // 2. can create report 
+            .addCase(canCreateReportThroughRedux.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(canCreateReportThroughRedux.fulfilled, (state, action) => {
+                state.isLoading = false;
+                console.log("action in reducer:",action.payload);
+            })
+            .addCase(canCreateReportThroughRedux.rejected, (state, action) => {
+                console.log("action.payload in user reports rejected", action.payload);
+                state.isLoading = false;
+                state.isError = true;
+            })
+            // 3. now finally creating the report
+            .addCase(createReportThroughRedux.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(createReportThroughRedux.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const {_id, date, startTime, endTime} = action.payload.data
+                const report = {
+                    _id
+                    ,date: new Date(date).toISOString().split("T")[0]
+                    ,task
+                    ,startTime
+                    ,endTime
+                }
+                state.reports.push(report);
+                console.log("action in reducer:",action.payload);
+            })
+            .addCase(createReportThroughRedux.rejected, (state, action) => {
+                console.log("action.payload in user reports rejected", action.payload);
+                state.isLoading = false;
+                state.isError = true;
+            })
         }
     }
 )

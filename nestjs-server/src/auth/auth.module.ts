@@ -13,7 +13,7 @@ import { ConfigModule } from '@nestjs/config';
       {
         global: true,
         secret: process.env.JWT_SECRET,
-        signOptions: {expiresIn: '5s'}
+        signOptions: {expiresIn: '3600s'}
       }
     )
   ],
