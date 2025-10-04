@@ -11,6 +11,8 @@ import { useSelector,useDispatch } from "react-redux";
 import { verifyUserTokenRedux } from "./features/auth/auth.feature";
 import ViewReport from "./pages/reports/ViewReports";
 import CreateReport from "./pages/reports/CreateReport";
+import EditReport from "./pages/reports/EditReports";
+import EditSingleReport from "./pages/reports/EditSingleReport";
 
 
 
@@ -51,9 +53,18 @@ function App() {
             element: <CreateReport />
           },
           {
+            path: 'user-dashboard/edit-report',
+            element: <EditReport />
+          },
+          {
+            path: 'user-dashboard/edit-report/:id',
+            element: <EditSingleReport />
+          },
+          {
             path: 'admin-dashboard',
             element: <AdminDashboard />
           },
+          
         ]
       }
     ]

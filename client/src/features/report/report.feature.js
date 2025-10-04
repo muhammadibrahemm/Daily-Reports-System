@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { canCreateReportApi, createReportApi, fetchAllReportsApi } from "../../api/report/report.api";
+import { canCreateReportApi, createReportApi, editReportApi, fetchAllReportsApi } from "../../api/report/report.api";
 
 
 
@@ -50,7 +50,7 @@ export const createReportThroughRedux = createAsyncThunk(
     "reports/create",
     async ({ token, data }, { rejectWithValue }) => {
       try {
-
+        
         const response = await createReportApi(token, data);
         console.log("response is in report:",response);
         return response; 
@@ -69,6 +69,29 @@ export const createReportThroughRedux = createAsyncThunk(
     }
     }
   );
+
+// 4 edit the report through redux
+export const editReportThroughRedux = createAsyncThunk(
+    "reports/edit",
+    async({token, data,id}, {rejectWithValue}) => {
+        try {
+
+            const response = await editReportApi(token, data,id);
+            console.log("response is in report:",response);
+            return response; 
+
+        } catch (error) {
+            if (error === "TOKEN_EXPIRED") {
+                const errObj = {
+                    statusCode: 404,
+                    msg: "Token expired. Please login again."
+                }
+                return rejectWithValue(errObj);
+            }
+            return rejectWithValue(error);
+        }
+    }
+)
 
 const initialState = {
     reports: [],
@@ -130,6 +153,26 @@ const reportSlice = createSlice(
                 console.log("action in reducer:",action.payload);
             })
             .addCase(createReportThroughRedux.rejected, (state, action) => {
+                console.log("action.payload in user reports rejected", action.payload);
+                state.isLoading = false;
+                state.isError = true;
+            })
+            // 4. edit the report
+            .addCase(editReportThroughRedux.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(editReportThroughRedux.fulfilled, (state, action) => {
+                state.isLoading = false;
+
+                const { _id, date, endTime, startTime, task } = action.payload.data;
+                const updatedTask = { _id, date, endTime, startTime, task };
+
+                state.reports = state.reports.map((report) => 
+                    report._id === _id ? updatedTask : report
+                )
+                
+            })
+            .addCase(editReportThroughRedux.rejected, (state, action) => {
                 console.log("action.payload in user reports rejected", action.payload);
                 state.isLoading = false;
                 state.isError = true;

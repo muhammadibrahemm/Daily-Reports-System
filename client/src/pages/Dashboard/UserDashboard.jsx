@@ -43,6 +43,18 @@ function UserDashboard() {
       }
     }
 
+    const handleEditReports = async () => {
+      navigate('edit-report')
+      const res = await dispatch(fetchAllReportsThroughRedux(token));
+      const {msg, statusCode} = res.payload;
+
+      if(statusCode === 404){
+        dispatch(logout())
+        toast.error(msg);
+        navigate("/login")
+      }
+    }
+
     return (
       <main className="px-8 py-16 bg-gray-100 min-h-screen">
         <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
@@ -156,7 +168,9 @@ function UserDashboard() {
               </div>
             </div>
             <div className="mt-6 text-center">
-              <button className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+              <button className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+              onClick={handleEditReports}
+              >
                 Edit Reports
               </button>
             </div>
