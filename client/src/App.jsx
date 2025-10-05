@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './components/Layout/Layout'
-import Error  from './pages/Error/Error'
 import Home from './pages/Home/Home'
 import Register from './pages/Register/Register'
 import Login from "./pages/Login/Login"
@@ -14,6 +13,7 @@ import CreateReport from "./pages/reports/CreateReport";
 import EditReport from "./pages/reports/EditReports";
 import EditSingleReport from "./pages/reports/EditSingleReport";
 import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
+import { Error } from "./pages/Error/Error";
 
 
 
