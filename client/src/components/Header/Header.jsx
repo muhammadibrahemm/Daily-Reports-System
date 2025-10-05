@@ -20,6 +20,7 @@ function Header() {
       <div className="text-2xl font-bold text-blue-600">Daily Reports</div>
 
       <nav className="flex items-center space-x-4">
+
         {!token ? (
           <>
             <NavLink

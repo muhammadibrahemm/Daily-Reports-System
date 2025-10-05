@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 function ViewReport() {
   const { reports, isLoading } = useSelector((state) => state.reportSlice);
@@ -7,6 +9,34 @@ function ViewReport() {
 
   console.log("isLoading:", isLoading);
   console.log("reports:", reports);
+
+  const handleDownloadExcel = () => {
+    if (!reports || reports.length === 0) {
+      alert("No reports available to download.");
+      return;
+    }
+
+    // Prepare data for Excel
+    const data = reports.map((report) => ({
+      Date: new Date(report.date).toLocaleDateString(),
+      "Start Time": report.startTime,
+      "End Time": report.endTime,
+      Task: report.task,
+    }));
+
+    // Create a worksheet and workbook
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Reports");
+
+    // Generate Excel file and trigger download
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    saveAs(blob, "Daily_Reports.xlsx");
+  };
 
   if (isLoading) {
     return (
@@ -22,15 +52,23 @@ function ViewReport() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Main Content */}
       <main className="flex-1 p-6 bg-gray-50">
-        {/* Go Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="mb-6 px-5 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition"
-        >
-          Go Back
-        </button>
+        {/* Buttons Row */}
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="px-5 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition"
+          >
+            Go Back
+          </button>
+
+          <button
+            onClick={handleDownloadExcel}
+            className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition"
+          >
+            Download Excel
+          </button>
+        </div>
 
         <h1 className="text-2xl font-bold mb-6 text-gray-800">Your Reports</h1>
 
@@ -68,7 +106,6 @@ function ViewReport() {
           )}
         </div>
       </main>
-
     </div>
   );
 }

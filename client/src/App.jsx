@@ -13,6 +13,7 @@ import ViewReport from "./pages/reports/ViewReports";
 import CreateReport from "./pages/reports/CreateReport";
 import EditReport from "./pages/reports/EditReports";
 import EditSingleReport from "./pages/reports/EditSingleReport";
+import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
 
 
 
@@ -42,27 +43,27 @@ function App() {
           },
           {
             path: 'user-dashboard',
-            element: <UserDashboard />,
+            element: <ProtectedRoute allowedRole={"user"} element={<UserDashboard />} />
           },
           {
             path: 'user-dashboard/view-report',
-            element: <ViewReport />
+            element: <ProtectedRoute allowedRole={"user"} element={<ViewReport />} />
           },
           {
             path: 'user-dashboard/create-report',
-            element: <CreateReport />
+            element: <ProtectedRoute allowedRole={"user"} element={<CreateReport />} />
           },
           {
             path: 'user-dashboard/edit-report',
-            element: <EditReport />
+            element: <ProtectedRoute allowedRole={"user"} element={<EditReport />} />
           },
           {
             path: 'user-dashboard/edit-report/:id',
-            element: <EditSingleReport />
+            element: <ProtectedRoute allowedRole={"user"} element={<EditSingleReport />} />
           },
           {
             path: 'admin-dashboard',
-            element: <AdminDashboard />
+            element: <ProtectedRoute allowedRole={"admin"} element={<AdminDashboard />} />
           },
           
         ]

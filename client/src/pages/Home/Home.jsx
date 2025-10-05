@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function Home() {
   return (
@@ -13,12 +14,12 @@ function Home() {
             Track, create, and manage your reports efficiently.
           </p>
           <div className="space-x-4">
-            <button className="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            <NavLink to={"/register"} className="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
               Register
-            </button>
-            <button className="px-6 py-3 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">
+            </NavLink >
+            <NavLink to={"/login"} className="px-6 py-3 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">
               Login
-            </button>
+            </NavLink >
           </div>
         </div>
 
